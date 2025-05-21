@@ -7,6 +7,7 @@ require (
 	github.com/gorilla/sessions v1.2.2
 	github.com/labstack/echo-contrib v0.15.0
 	github.com/labstack/echo/v4 v4.11.4
+	
 )
 
 require (
