@@ -6,18 +6,21 @@ RUN apk add --no-cache git sqlite
 
 WORKDIR /app
 
-COPY go.mod go.sum ./
-RUN go mod tidy && go mod download
-
+# Eerst alles kopiëren
 COPY . .
 
+# Pas daarna dependencies installeren
+RUN go mod tidy && go mod download
+
 WORKDIR /app/cmd
+
+# Build de binary
 RUN go build -o /go/bin/app
 
 # ---------- STAGE 2: Runtime ----------
 FROM alpine:latest
 
-# Installeer alleen runtime dependencies
+# Alleen runtime dependencies
 RUN apk add --no-cache sqlite
 
 WORKDIR /root/
