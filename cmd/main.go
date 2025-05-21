@@ -1,9 +1,12 @@
 package main
 
 import (
-	"github.com/emarifer/go-echo-templ-htmx/db"
-	"github.com/emarifer/go-echo-templ-htmx/handlers"
-	"github.com/emarifer/go-echo-templ-htmx/services"
+	"log"
+	"os"
+
+	"github.com/RickvanCampen/go-echo-templ-htmx-main-cicd/db"
+	"github.com/RickvanCampen/go-echo-templ-htmx-main-cicd/handlers"
+	"github.com/RickvanCampen/go-echo-templ-htmx-main-cicd/services"
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
@@ -11,14 +14,18 @@ import (
 	"github.com/labstack/echo/v4/middleware"
 )
 
-// In production, the secret key of the CookieStore
-// and database name would be obtained from a .env file
-const (
-	SECRET_KEY string = "secret"
-	DB_NAME    string = "app_data.db"
-)
-
 func main() {
+	secretKey := os.Getenv("SECRET_KEY")
+	if secretKey == "" {
+		log.Println("WARNING: SECRET_KEY not set, using default (not safe for production)")
+		secretKey = "secret"
+	}
+
+	dbName := os.Getenv("DB_NAME")
+	if dbName == "" {
+		log.Println("WARNING: DB_NAME not set, using default app_data.db")
+		dbName = "app_data.db"
+	}
 
 	e := echo.New()
 
@@ -27,13 +34,13 @@ func main() {
 	e.HTTPErrorHandler = handlers.CustomHTTPErrorHandler
 
 	// Helpers Middleware
-	// e.Use(middleware.Recover())
+	e.Use(middleware.Recover()) // nu aan, voorkomt crashes
 	e.Use(middleware.Logger())
 
 	// Session Middleware
-	e.Use(session.Middleware(sessions.NewCookieStore([]byte(SECRET_KEY))))
+	e.Use(session.Middleware(sessions.NewCookieStore([]byte(secretKey))))
 
-	store, err := db.NewStore(DB_NAME)
+	store, err := db.NewStore(dbName)
 	if err != nil {
 		e.Logger.Fatalf("failed to create store: %s", err)
 	}
@@ -50,10 +57,3 @@ func main() {
 	// Start Server
 	e.Logger.Fatal(e.Start(":8082"))
 }
-
-/*
-https://gist.github.com/taforyou/544c60ffd072c9573971cf447c9fea44
-https://gist.github.com/mhewedy/4e45e04186ed9d4e3c8c86e6acff0b17
-
-https://github.com/CurtisVermeeren/gorilla-sessions-tutorial
-*/

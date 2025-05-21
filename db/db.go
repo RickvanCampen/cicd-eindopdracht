@@ -18,7 +18,7 @@ func NewStore(dbName string) (Store, error) {
 		return Store{}, err
 	}
 
-	if err := createMigrations(dbName, Db); err != nil {
+	if err := createMigrations(Db); err != nil {
 		return Store{}, err
 	}
 
@@ -28,19 +28,8 @@ func NewStore(dbName string) (Store, error) {
 }
 
 func getConnection(dbName string) (*sql.DB, error) {
-	var (
-		err error
-		db  *sql.DB
-	)
-
-	if db != nil {
-		return db, nil
-	}
-
-	// Init SQLite3 database
-	db, err = sql.Open("sqlite3", dbName)
+	db, err := sql.Open("sqlite3", dbName)
 	if err != nil {
-		// log.Fatalf("🔥 failed to connect to the database: %s", err.Error())
 		return nil, fmt.Errorf("🔥 failed to connect to the database: %s", err)
 	}
 
@@ -49,7 +38,7 @@ func getConnection(dbName string) (*sql.DB, error) {
 	return db, nil
 }
 
-func createMigrations(dbName string, db *sql.DB) error {
+func createMigrations(db *sql.DB) error {
 	stmt := `CREATE TABLE IF NOT EXISTS users (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
 		email VARCHAR(255) NOT NULL UNIQUE,

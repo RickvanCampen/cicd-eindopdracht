@@ -7,8 +7,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/emarifer/go-echo-templ-htmx/services"
-	"github.com/emarifer/go-echo-templ-htmx/views/todo_views"
+	"github.com/RickvanCampen/go-echo-templ-htmx-main-cicd/services"
+	"github.com/RickvanCampen/go-echo-templ-htmx-main-cicd/views/todo_views"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"golang.org/x/text/cases"

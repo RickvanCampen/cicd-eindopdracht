@@ -1,4 +1,4 @@
-module github.com/emarifer/go-echo-templ-htmx
+module github.com/RickvanCampen/go-echo-templ-htmx-main-cicd
 
 go 1.21.0
 
