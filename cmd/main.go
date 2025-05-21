@@ -4,9 +4,9 @@ import (
 	"log"
 	"os"
 
-	"github.com/RickvanCampen/go-echo-templ-htmx-main-cicd/db"
-	"github.com/RickvanCampen/go-echo-templ-htmx-main-cicd/handlers"
-	"github.com/RickvanCampen/go-echo-templ-htmx-main-cicd/services"
+	"github.com/RickvanCampen/cicd-eindopdracht/db"
+	"github.com/RickvanCampen/cicd-eindopdracht/handlers"
+	"github.com/RickvanCampen/cicd-eindopdracht/services"
 
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"

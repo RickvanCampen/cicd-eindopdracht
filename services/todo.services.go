@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/RickvanCampen/go-echo-templ-htmx-main-cicd/db"
+	"github.com/RickvanCampen/cicd-eindopdracht/db"
 )
 
 func NewTodoServices(t Todo, tStore db.Store) *TodoServices {
