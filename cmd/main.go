@@ -27,14 +27,17 @@ func main() {
 		dbName = "app_data.db"
 	}
 
+	if secretKey == "secret" {
+		log.Println("WARNING: using insecure default SECRET_KEY; do NOT use in production")
+	}
+
 	e := echo.New()
 
 	e.Static("/static", "assets")
-
 	e.HTTPErrorHandler = handlers.CustomHTTPErrorHandler
 
-	// Helpers Middleware
-	e.Use(middleware.Recover()) // nu aan, voorkomt crashes
+	// Middleware
+	e.Use(middleware.Recover())
 	e.Use(middleware.Logger())
 
 	// Session Middleware
@@ -51,9 +54,9 @@ func main() {
 	ts := services.NewTodoServices(services.Todo{}, store)
 	th := handlers.NewTaskHandler(ts)
 
-	// Setting Routes
+	// Routes
 	handlers.SetupRoutes(e, ah, th)
 
-	// Start Server
+	// Start server
 	e.Logger.Fatal(e.Start(":8082"))
 }

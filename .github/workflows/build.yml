@@ -43,8 +43,6 @@ jobs:
         docker buildx build \
           --platform linux/amd64,linux/arm64 \
           --push \
-          --build-arg SECRET_KEY=${{ secrets.SECRET_KEY }} \
-          --build-arg DB_NAME=${{ secrets.DB_NAME }} \
           -t ghcr.io/${{ steps.lowercase.outputs.reponame }}:latest \
           -t ghcr.io/${{ steps.lowercase.outputs.reponame }}:${{ github.sha }} \
           -f Dockerfile .
